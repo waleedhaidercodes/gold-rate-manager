@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useGlobalContext } from '../context/GlobalContext';
 
 const GoldRates = () => {
-  const { goldRates, addRate } = useGlobalContext();
+  const { goldRates, addRate, deleteRate } = useGlobalContext();
   const [rate, setRate] = useState('');
   const [type, setType] = useState('CLOSING');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
@@ -11,7 +11,7 @@ const GoldRates = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    
+
     if (!rate || rate <= 0) {
       setError('Please enter a valid rate.');
       return;
@@ -29,6 +29,16 @@ const GoldRates = () => {
     }
   };
 
+  const handleDelete = async (id) => {
+    if (window.confirm('Are you sure you want to delete this rate?')) {
+      try {
+        await deleteRate(id);
+      } catch (err) {
+        setError(err);
+      }
+    }
+  };
+
   return (
     <div className="space-y-6">
       <h1 className="text-3xl font-bold text-gray-800">Gold Rates Management</h1>
@@ -37,35 +47,35 @@ const GoldRates = () => {
       <div className="bg-white p-6 rounded-lg shadow-md">
         <h2 className="text-xl font-semibold mb-4">Add New Rate</h2>
         {error && <div className="bg-red-100 text-red-700 p-3 rounded mb-4">{error}</div>}
-        
+
         <form onSubmit={handleSubmit} className="flex flex-wrap gap-4 items-end">
           <div className="flex-1 min-w-[200px]">
             <label className="block text-gray-700 mb-2">Date</label>
-            <input 
-              type="date" 
+            <input
+              type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
               className="w-full border rounded p-2"
               required
             />
           </div>
-          
+
           <div className="flex-1 min-w-[200px]">
-             <label className="block text-gray-700 mb-2">Rate Type</label>
-             <select 
-               value={type} 
-               onChange={(e) => setType(e.target.value)}
-               className="w-full border rounded p-2"
-             >
-               <option value="CLOSING">Closing Rate (Official)</option>
-               <option value="INTRADAY">Intraday / Other</option>
-             </select>
+            <label className="block text-gray-700 mb-2">Rate Type</label>
+            <select
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+              className="w-full border rounded p-2"
+            >
+              <option value="CLOSING">Closing Rate (Official)</option>
+              <option value="INTRADAY">Intraday / Other</option>
+            </select>
           </div>
 
           <div className="flex-1 min-w-[200px]">
             <label className="block text-gray-700 mb-2">Rate per Tola (PKR Rs)</label>
-            <input 
-              type="number" 
+            <input
+              type="number"
               value={rate}
               onChange={(e) => setRate(e.target.value)}
               placeholder="e.g. 7500"
@@ -74,8 +84,8 @@ const GoldRates = () => {
             />
           </div>
 
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition"
           >
             Add Rate
@@ -94,12 +104,13 @@ const GoldRates = () => {
                 <th className="p-3 font-semibold">Type</th>
                 <th className="p-3 font-semibold">Rate (Per Tola)</th>
                 <th className="p-3 font-semibold">Last Updated</th>
+                <th className="p-3 font-semibold">Actions</th>
               </tr>
             </thead>
             <tbody>
               {goldRates.length === 0 ? (
                 <tr>
-                   <td colSpan="4" className="p-4 text-center text-gray-500">No rates recorded yet.</td>
+                  <td colSpan="4" className="p-4 text-center text-gray-500">No rates recorded yet.</td>
                 </tr>
               ) : (
                 goldRates.map((item) => (
@@ -112,6 +123,14 @@ const GoldRates = () => {
                     </td>
                     <td className="p-3 font-mono">PKR Rs {item.ratePerGram.toLocaleString()}</td>
                     <td className="p-3 text-sm text-gray-500">{new Date(item.recordedAt).toLocaleTimeString()}</td>
+                    <td className="p-3">
+                      <button
+                        onClick={() => handleDelete(item._id)}
+                        className="text-red-600 hover:text-red-800 text-sm font-semibold"
+                      >
+                        Delete
+                      </button>
+                    </td>
                   </tr>
                 ))
               )}

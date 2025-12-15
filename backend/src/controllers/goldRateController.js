@@ -71,8 +71,27 @@ const getRateHistory = async (req, res) => {
   }
 };
 
+// @desc    Delete a gold rate
+// @route   DELETE /api/gold-rates/:id
+// @access  Public
+const deleteGoldRate = async (req, res) => {
+  try {
+    const goldRate = await GoldRate.findById(req.params.id);
+
+    if (!goldRate) {
+      return res.status(404).json({ message: 'Gold rate not found' });
+    }
+
+    await goldRate.deleteOne();
+    res.json({ message: 'Gold rate removed' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   addGoldRate,
   getCurrentRate,
   getRateHistory,
+  deleteGoldRate,
 };

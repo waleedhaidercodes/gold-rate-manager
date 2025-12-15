@@ -16,7 +16,7 @@ export const GlobalProvider = ({ children }) => {
     try {
       const { data: history } = await client.get('/gold-rates/history?days=30');
       const { data: current } = await client.get('/gold-rates/current').catch(() => ({ data: null }));
-      
+
       setGoldRates(history);
       setCurrentRate(current);
     } catch (err) {
@@ -57,7 +57,7 @@ export const GlobalProvider = ({ children }) => {
     try {
       const formData = new FormData();
       formData.append('file', file);
-      
+
       const { data } = await client.post('/investments/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -88,6 +88,15 @@ export const GlobalProvider = ({ children }) => {
     loadData();
   }, []);
 
+  const deleteRate = async (id) => {
+    try {
+      await client.delete(`/gold-rates/${id}`);
+      await fetchRates(); // Refresh
+    } catch (err) {
+      throw err.response?.data?.message || err.message;
+    }
+  };
+
   const value = {
     goldRates,
     currentRate,
@@ -95,6 +104,7 @@ export const GlobalProvider = ({ children }) => {
     loading,
     error,
     addRate,
+    deleteRate,
     addInvestment,
     deleteInvestment,
     uploadInvestments,
