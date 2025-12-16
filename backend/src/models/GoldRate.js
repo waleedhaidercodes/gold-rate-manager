@@ -20,6 +20,10 @@ const goldRateSchema = new mongoose.Schema({
     type: Date,
     required: true,
     // Normalized date (set to midnight) to enforce one closing rate per day
+  },
+  contributedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
   }
 }, {
   timestamps: true,

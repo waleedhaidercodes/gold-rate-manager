@@ -18,6 +18,7 @@ const addInvestment = async (req, res) => {
       buyRatePerGram,
       purchaseDate,
       notes,
+      user: req.userId,
     });
 
     res.status(201).json(investment);
@@ -31,7 +32,7 @@ const addInvestment = async (req, res) => {
 // @access  Public
 const getInvestments = async (req, res) => {
   try {
-    const investments = await Investment.find().sort({ purchaseDate: -1 });
+    const investments = await Investment.find({ user: req.userId }).sort({ purchaseDate: -1 });
     res.json(investments);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -43,13 +44,13 @@ const getInvestments = async (req, res) => {
 // @access  Public
 const updateInvestment = async (req, res) => {
   try {
-    const investment = await Investment.findById(req.params.id);
+    const investment = await Investment.findOne({ _id: req.params.id, user: req.userId });
     if (!investment) {
       return res.status(404).json({ message: 'Investment not found' });
     }
 
-    const updatedInvestment = await Investment.findByIdAndUpdate(
-      req.params.id,
+    const updatedInvestment = await Investment.findOneAndUpdate(
+      { _id: req.params.id, user: req.userId },
       req.body,
       { new: true }
     );
@@ -64,7 +65,7 @@ const updateInvestment = async (req, res) => {
 // @access  Public
 const deleteInvestment = async (req, res) => {
   try {
-    const investment = await Investment.findById(req.params.id);
+    const investment = await Investment.findOne({ _id: req.params.id, user: req.userId });
     if (!investment) {
       return res.status(404).json({ message: 'Investment not found' });
     }
@@ -117,7 +118,8 @@ const uploadInvestments = async (req, res) => {
         purchaseDate: new Date(purchaseDate),
         weightInGrams: weightInMg,
         buyRatePerGram: parseInt(buyRate), // Storing Rate Per Tola here
-        notes
+        notes,
+        user: req.userId
       });
     }
 
@@ -158,7 +160,7 @@ const downloadTemplate = (req, res) => {
 
 const exportInvestments = async (req, res) => {
   try {
-    const investments = await Investment.find().sort({ purchaseDate: -1 });
+    const investments = await Investment.find({ user: req.userId }).sort({ purchaseDate: -1 });
 
     const data = investments.map(inv => ({
       Date: new Date(inv.purchaseDate).toISOString().split('T')[0],

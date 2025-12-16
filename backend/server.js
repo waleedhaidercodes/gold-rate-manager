@@ -12,11 +12,17 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+const authRoutes = require('./src/routes/authRoutes');
+const authenticationMiddleware = require('./src/middlewares/authentication');
+
+app.use('/api/auth', authRoutes);
+
 const goldRateRoutes = require('./src/routes/goldRateRoutes');
 app.use('/api/gold-rates', goldRateRoutes);
 
 const investmentRoutes = require('./src/routes/investmentRoutes');
-app.use('/api/investments', investmentRoutes);
+app.use('/api/investments', authenticationMiddleware, investmentRoutes);
+
 
 app.get('/', (req, res) => {
   res.send('API is running...');

@@ -23,6 +23,7 @@ const addGoldRate = async (req, res) => {
       type,
       recordedAt,
       rateDate,
+      contributedBy: req.userId,
     });
 
     res.status(201).json(goldRate);
