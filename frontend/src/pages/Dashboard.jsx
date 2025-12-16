@@ -40,7 +40,7 @@ const Dashboard = () => {
         <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-500">
           <h2 className="text-gray-500 text-sm uppercase tracking-wide">Current Gold Rate</h2>
           <p className="text-3xl font-bold mt-2">
-            {currentRatePerTola ? `PKR Rs ${currentRatePerTola.toLocaleString()}` : 'N/A'}
+            {currentRatePerTola ? `Rs ${currentRatePerTola.toLocaleString()}` : 'N/A'}
           </p>
           <span className="text-xs text-gray-400">Per Tola (Closing)</span>
         </div>
@@ -53,14 +53,14 @@ const Dashboard = () => {
 
         <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-gray-500">
           <h2 className="text-gray-500 text-sm uppercase tracking-wide">Total Invested</h2>
-          <p className="text-3xl font-bold mt-2">PKR Rs {Math.round(totalInvested).toLocaleString()}</p>
+          <p className="text-3xl font-bold mt-2">Rs {Math.round(totalInvested).toLocaleString()}</p>
         </div>
 
         <div className={`bg-white p-6 rounded-lg shadow-md border-l-4 ${isProfit ? 'border-green-500' : 'border-red-500'}`}>
           <h2 className="text-gray-500 text-sm uppercase tracking-wide">Current Valuation</h2>
-          <p className="text-3xl font-bold mt-2">PKR Rs {Math.round(currentValue).toLocaleString()}</p>
+          <p className="text-3xl font-bold mt-2">Rs {Math.round(currentValue).toLocaleString()}</p>
           <div className={`mt-1 font-semibold ${isProfit ? 'text-green-600' : 'text-red-600'}`}>
-            {isProfit ? '+' : ''}PKR Rs {Math.round(totalProfit).toLocaleString()} 
+            {isProfit ? '+' : ''}Rs {Math.round(totalProfit).toLocaleString()} 
             {totalInvested > 0 && <span> ({((totalProfit / totalInvested) * 100).toFixed(2)}%)</span>}
           </div>
         </div>
@@ -69,7 +69,7 @@ const Dashboard = () => {
       {investments.length > 0 && (
          <div className="mt-8 bg-white p-6 rounded-lg shadow-md">
            <h3 className="text-lg font-bold mb-4">Investment Summary</h3>
-           <p className="text-gray-600">Your portfolio is currently valued at <b>PKR Rs {Math.round(currentValue).toLocaleString()}</b> against an investment of <b>PKR Rs {Math.round(totalInvested).toLocaleString()}</b>.</p>
+           <p className="text-gray-600">Your portfolio is currently valued at <b>Rs {Math.round(currentValue).toLocaleString()}</b> against an investment of <b>Rs {Math.round(totalInvested).toLocaleString()}</b>.</p>
          </div>
       )}
     </div>
