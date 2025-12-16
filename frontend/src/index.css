@@ -3,5 +3,21 @@
 @tailwind utilities;
 
 body {
-  background-color: #f3f4f6;
+  background-color: #0F172A;
+  color: #f3f4f6;
+  font-family: 'Inter', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Playfair Display', serif;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
 }

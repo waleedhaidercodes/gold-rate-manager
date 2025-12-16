@@ -9,6 +9,11 @@ export const GlobalProvider = ({ children }) => {
   const [goldRates, setGoldRates] = useState([]);
   const [currentRate, setCurrentRate] = useState(null);
   const [investments, setInvestments] = useState([]);
+
+  // Silver State
+  const [silverRates, setSilverRates] = useState([]);
+  const [currentSilverRate, setCurrentSilverRate] = useState(null);
+  const [silverInvestments, setSilverInvestments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -32,6 +37,28 @@ export const GlobalProvider = ({ children }) => {
     } catch (err) {
       console.error('Error fetching investments:', err);
       setError(err.message);
+    }
+  };
+
+  const fetchSilverRates = async () => {
+    try {
+      const { data: history } = await client.get('/silver-rates/history?days=30');
+      const { data: current } = await client.get('/silver-rates/current').catch(() => ({ data: null }));
+
+      setSilverRates(history);
+      setCurrentSilverRate(current);
+    } catch (err) {
+      console.error('Error fetching silver rates:', err);
+      // Optional: setError(err.message) if you want to block UI
+    }
+  };
+
+  const fetchSilverInvestments = async () => {
+    try {
+      const { data } = await client.get('/silver-investments');
+      setSilverInvestments(data);
+    } catch (err) {
+      console.error('Error fetching silver investments:', err);
     }
   };
 
@@ -79,10 +106,51 @@ export const GlobalProvider = ({ children }) => {
     }
   };
 
+  const addSilverRate = async (rateData) => {
+    try {
+      await client.post('/silver-rates', rateData);
+      await fetchSilverRates();
+    } catch (err) {
+      throw err.response?.data?.message || err.message;
+    }
+  };
+
+  const deleteSilverRate = async (id) => {
+    try {
+      await client.delete(`/silver-rates/${id}`);
+      await fetchSilverRates();
+    } catch (err) {
+      throw err.response?.data?.message || err.message;
+    }
+  };
+
+  const addSilverInvestment = async (invData) => {
+    try {
+      await client.post('/silver-investments', invData);
+      await fetchSilverInvestments();
+    } catch (err) {
+      throw err.response?.data?.message || err.message;
+    }
+  };
+
+  const deleteSilverInvestment = async (id) => {
+    try {
+      await client.delete(`/silver-investments/${id}`);
+      await fetchSilverInvestments();
+    } catch (err) {
+      throw err.response?.data?.message || err.message;
+    }
+  };
+
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
-      await Promise.allSettled([fetchRates(), fetchInvestments()]);
+      await Promise.allSettled([
+        fetchRates(),
+        fetchInvestments(),
+        fetchSilverRates(),
+        fetchSilverInvestments()
+      ]);
       setLoading(false);
     };
     loadData();
@@ -110,6 +178,16 @@ export const GlobalProvider = ({ children }) => {
     uploadInvestments,
     fetchRates,
     fetchInvestments,
+    // Silver Exports
+    silverRates,
+    currentSilverRate,
+    silverInvestments,
+    addSilverRate,
+    deleteSilverRate,
+    addSilverInvestment,
+    deleteSilverInvestment,
+    fetchSilverRates,
+    fetchSilverInvestments,
   };
 
   return (

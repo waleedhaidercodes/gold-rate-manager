@@ -4,6 +4,7 @@ import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
 import Dashboard from './pages/Dashboard';
+import SilverDashboard from './pages/SilverDashboard';
 import GoldRates from './pages/GoldRates';
 import Investments from './pages/Investments';
 import LoginPage from './pages/LoginPage';
@@ -26,10 +27,11 @@ function App() {
           <Routes>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
-            
+
             <Route element={<ProtectedRoute />}>
               <Route element={<AppLayout />}>
                 <Route path="/" element={<Dashboard />} />
+                <Route path="/silver" element={<SilverDashboard />} />
                 <Route path="/rates" element={<GoldRates />} />
                 <Route path="/investments" element={<Investments />} />
               </Route>

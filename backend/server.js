@@ -23,6 +23,12 @@ app.use('/api/gold-rates', goldRateRoutes);
 const investmentRoutes = require('./src/routes/investmentRoutes');
 app.use('/api/investments', authenticationMiddleware, investmentRoutes);
 
+const silverRateRoutes = require('./src/routes/silverRateRoutes');
+app.use('/api/silver-rates', silverRateRoutes);
+
+const silverInvestmentRoutes = require('./src/routes/silverInvestmentRoutes');
+app.use('/api/silver-investments', authenticationMiddleware, silverInvestmentRoutes);
+
 
 app.get('/', (req, res) => {
   res.send('API is running...');
