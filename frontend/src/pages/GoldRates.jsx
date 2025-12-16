@@ -124,12 +124,14 @@ const GoldRates = () => {
                     <td className="p-3 font-mono">PKR Rs {item.ratePerGram.toLocaleString()}</td>
                     <td className="p-3 text-sm text-gray-500">{new Date(item.recordedAt).toLocaleTimeString()}</td>
                     <td className="p-3">
-                      <button
-                        onClick={() => handleDelete(item._id)}
-                        className="text-red-600 hover:text-red-800 text-sm font-semibold"
-                      >
-                        Delete
-                      </button>
+                      {new Date(item.rateDate).toDateString() === new Date().toDateString() && (
+                        <button
+                          onClick={() => handleDelete(item._id)}
+                          className="text-red-600 hover:text-red-800 text-sm font-semibold"
+                        >
+                          Delete
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))
