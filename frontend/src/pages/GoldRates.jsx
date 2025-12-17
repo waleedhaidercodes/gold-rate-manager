@@ -41,7 +41,7 @@ const GoldRates = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold text-gray-800">Gold Rates Management</h1>
+      <h1 className="text-3xl font-bold text-gold-500">Gold Rates Management</h1>
 
       {/* Add Rate Form */}
       <div className="bg-white p-6 rounded-lg shadow-md">

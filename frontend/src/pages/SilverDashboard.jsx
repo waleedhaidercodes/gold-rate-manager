@@ -109,7 +109,7 @@ const SilverDashboard = () => {
     return (
         <div className="space-y-8">
             {/* Header */}
-            <h1 className="text-3xl font-extrabold text-black">Silver Dashboard</h1>
+            <h1 className="text-3xl font-extrabold text-gray-400">Silver Dashboard</h1>
 
             {/* Notifications */}
             {message && <div className="bg-green-100 text-green-700 p-3 rounded">{message}</div>}

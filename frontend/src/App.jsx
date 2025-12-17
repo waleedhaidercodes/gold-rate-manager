@@ -23,7 +23,7 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="min-h-screen bg-gray-100 font-sans text-gray-900">
+        <div className="min-h-screen bg-gray-900 font-sans text-gray-900">
           <Routes>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
