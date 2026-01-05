@@ -1,17 +1,21 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const connectDB = async () => {
+  if (mongoose.connection.readyState >= 1) {
+    return;
+  }
+
   try {
     const conn = await mongoose.connect(process.env.MONGO_URI);
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
-    if (error.message.includes('whitelisted')) {
-      console.error('❌ MongoDB Connection Failed: Access blocked by IP whitelist.');
-      console.error('👉 ACTION REQUIRED: Go to MongoDB Atlas > Network Access and whitelist your current IP address.');
+    console.error(`Error: ${error.message}`);
+    // Do not exit process in serverless environment
+    if (!process.env.VERCEL) {
+      process.exit(1);
     } else {
-      console.error(`Error: ${error.message}`);
+      throw error;
     }
-    process.exit(1);
   }
 };
 
