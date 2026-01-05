@@ -1,0 +1,27 @@
+{
+  "name": "gold-rate-manager",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:backend": "cd backend && npm start",
+    "start:frontend": "cd frontend && npm run dev",
+    "dev": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/waleedhaidercodes/gold-rate-manager.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/waleedhaidercodes/gold-rate-manager/issues"
+  },
+  "homepage": "https://github.com/waleedhaidercodes/gold-rate-manager#readme",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
