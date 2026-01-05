@@ -1,7 +1,7 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const multer = require('multer');
-const upload = multer({ dest: 'uploads/' });
+const multer = require("multer");
+const upload = multer({ dest: "/tmp/" });
 
 const {
   addInvestment,
@@ -11,12 +11,12 @@ const {
   uploadInvestments,
   downloadTemplate,
   exportInvestments,
-} = require('../controllers/investmentController');
+} = require("../controllers/investmentController");
 
-router.get('/template', downloadTemplate);
-router.get('/export', exportInvestments);
-router.post('/upload', upload.single('file'), uploadInvestments);
-router.route('/').post(addInvestment).get(getInvestments);
-router.route('/:id').put(updateInvestment).delete(deleteInvestment);
+router.get("/template", downloadTemplate);
+router.get("/export", exportInvestments);
+router.post("/upload", upload.single("file"), uploadInvestments);
+router.route("/").post(addInvestment).get(getInvestments);
+router.route("/:id").put(updateInvestment).delete(deleteInvestment);
 
 module.exports = router;
