@@ -5,7 +5,7 @@ const connectDB = require("./src/config/db");
 
 dotenv.config();
 
-connectDB();
+// connectDB(); // Connected in api/index.js for Vercel or in conditional block below for local
 
 const app = express();
 
@@ -40,6 +40,7 @@ app.get("/", (req, res) => {
 const PORT = process.env.PORT || 5000;
 
 if (require.main === module) {
+  connectDB();
   app.listen(PORT, console.log(`Server running on port ${PORT}`));
 }
 
